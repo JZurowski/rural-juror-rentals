@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rural Juror Rentals</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Anton&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#003087;--blue-dark:#001a52;--blue-mid:#0a2060;--blue-light:#1a4a9c;--gold:#FFD700;--gold-dark:#c9a800;--cream:#FFF8DC;--white:#fff;--bg:#000c20}
+body{background:var(--bg);color:var(--white);font-family:'Lato',sans-serif;min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(180deg,#003d9e 0%,#002266 100%);border-bottom:6px solid var(--gold);padding:28px 40px 22px;text-align:center;position:relative;overflow:hidden}
+.header-stripe{height:10px;background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 44px,var(--blue-dark) 44px,var(--blue-dark) 88px);position:absolute;top:0;left:0;right:0}
+.header-logo{font-family:'Bangers',cursive;font-size:clamp(2.8rem,7vw,5.5rem);color:var(--gold);letter-spacing:5px;text-shadow:4px 4px 0 #000,0 0 40px rgba(255,215,0,.4);line-height:1;margin-top:4px}
+.header-stars{color:var(--gold);font-size:.85rem;letter-spacing:8px;margin:6px 0 4px;opacity:.9}
+.header-sub{font-family:'Anton',sans-serif;font-size:.85rem;letter-spacing:5px;color:rgba(255,255,255,.85);margin-bottom:4px}
+.header-tag{font-size:.75rem;color:var(--gold);letter-spacing:2px;font-style:italic;opacity:.8}
+.header-badge{display:inline-block;background:var(--gold);color:var(--blue-dark);font-family:'Anton',sans-serif;font-size:.65rem;letter-spacing:3px;padding:3px 14px;border-radius:2px;margin-top:10px}
+
+/* CONTROLS */
+.controls{background:var(--blue-dark);border-bottom:3px solid var(--gold-dark);padding:14px 28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search-wrap{flex:1;min-width:200px;position:relative}
+.search-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+.search-input{width:100%;padding:10px 14px 10px 36px;background:#0e2a6e;border:2px solid var(--gold-dark);border-radius:4px;color:var(--white);font-family:'Lato',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.search-input::placeholder{color:rgba(255,255,255,.4)}
+.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,215,0,.25)}
+.genre-select{padding:10px 14px;background:#0e2a6e;border:2px solid var(--gold-dark);border-radius:4px;color:var(--white);font-family:'Lato',sans-serif;font-size:.9rem;outline:none;cursor:pointer;min-width:175px;transition:border-color .2s}
+.genre-select:focus{border-color:var(--gold)}
+.genre-select option{background:#001a52}
+
+/* TABS */
+.tabs{display:flex;background:var(--blue-mid);padding:0 28px;border-bottom:2px solid rgba(255,215,0,.2)}
+.tab-btn{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;padding:13px 28px;background:transparent;border:none;border-bottom:4px solid transparent;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;text-transform:uppercase;margin-bottom:-2px}
+.tab-btn:hover{color:rgba(255,215,0,.75)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(255,215,0,.07)}
+
+/* COUNT BAR */
+.count-bar{padding:9px 28px;background:var(--bg);font-size:.75rem;color:rgba(255,255,255,.35);letter-spacing:1px;font-family:'Anton',sans-serif;border-bottom:1px solid rgba(255,255,255,.05)}
+
+/* GRID */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;padding:22px 28px 52px}
+
+/* CARD */
+.card{background:linear-gradient(155deg,#1c3070 0%,#0b1c4a 100%);border:2px solid #2040a0;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s;position:relative;user-select:none}
+.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 14px 36px rgba(0,0,0,.7),0 0 22px rgba(255,215,0,.22);border-color:var(--gold)}
+.card-top{background:linear-gradient(90deg,#FFD700,#e6c200);padding:9px 11px 9px;min-height:52px;position:relative}
+.card-title{font-family:'Bangers',cursive;font-size:1.15rem;letter-spacing:1px;color:#001440;line-height:1.2;padding-right:38px;text-shadow:1px 1px 0 rgba(255,255,255,.25)}
+.card-year{position:absolute;top:6px;right:7px;background:var(--blue-dark);color:var(--gold);font-family:'Anton',sans-serif;font-size:.62rem;padding:2px 6px;border-radius:3px;letter-spacing:1px}
+.card-body{padding:9px 11px 12px}
+.card-genre{display:inline-block;background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.35);color:var(--gold);font-size:.68rem;padding:2px 8px;border-radius:10px;letter-spacing:.5px;margin-bottom:7px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-note{font-size:.7rem;color:rgba(255,255,255,.5);font-style:italic;line-height:1.4}
+.card-tape{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),transparent)}
+
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(255,255,255,.25);font-family:'Bangers',cursive;font-size:2rem;letter-spacing:3px}
+
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,8,24,.88);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;backdrop-filter:blur(4px);padding:20px}
+.modal-overlay.open{opacity:1;visibility:visible}
+
+/* MODAL CARD */
+.modal-card{background:linear-gradient(155deg,#1c3070 0%,#081438 100%);border:3px solid var(--gold);border-radius:12px;width:100%;max-width:480px;overflow:hidden;transform:scale(.75) translateY(30px);transition:transform .32s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 80px rgba(255,215,0,.25),0 30px 80px rgba(0,0,0,.85);position:relative}
+.modal-overlay.open .modal-card{transform:scale(1) translateY(0)}
+
+.modal-top{background:linear-gradient(90deg,#FFD700,#e0b800);padding:18px 20px 16px;position:relative}
+.modal-title{font-family:'Bangers',cursive;font-size:clamp(1.6rem,5vw,2.4rem);color:#001440;letter-spacing:2px;line-height:1.1;padding-right:44px;text-shadow:2px 2px 0 rgba(255,255,255,.3)}
+.modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:var(--blue-dark);border:2px solid var(--blue-light);border-radius:50%;color:var(--gold);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-weight:bold;line-height:1}
+.modal-close:hover{background:#000;transform:scale(1.1);border-color:var(--gold)}
+
+/* VHS CASSETTE */
+.vhs-wrap{background:rgba(0,0,0,.3);padding:16px 24px 14px;display:flex;justify-content:center}
+.vhs{width:260px;height:148px;background:#0d0d0d;border-radius:5px 5px 12px 12px;position:relative;box-shadow:0 6px 24px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.07)}
+.vhs-label{position:absolute;top:10px;left:12px;right:12px;height:76px;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden}
+.vhs-label::after{content:'';position:absolute;inset:0;background:linear-gradient(175deg,rgba(255,255,255,.18) 0%,transparent 45%,rgba(0,0,0,.18) 100%);pointer-events:none}
+.vhs-emoji{font-size:2.1rem;line-height:1;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.vhs-genre-name{font-family:'Bangers',cursive;font-size:.75rem;letter-spacing:3px;color:rgba(255,255,255,.92);text-shadow:0 1px 3px rgba(0,0,0,.7);position:relative;z-index:1}
+.vhs-window{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);width:150px;height:50px;background:#171717;border-radius:5px;border:1px solid #2b2b2b;display:flex;align-items:center;justify-content:space-around;padding:0 16px}
+.vhs-reel{width:28px;height:28px;border-radius:50%;background:conic-gradient(from 0deg,#3a3a3a 0%,#575757 30%,#3a3a3a 50%,#575757 80%,#3a3a3a 100%);border:2px solid #444;position:relative}
+.vhs-reel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#1e1e1e;border:1.5px solid #555}
+.vhs-slot{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:72px;height:3px;background:#000;border-radius:2px}
+
+.modal-body{padding:22px 22px 20px}
+.modal-field{margin-bottom:15px}
+.modal-label{font-family:'Anton',sans-serif;font-size:.62rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:5px;opacity:.75}
+.modal-value{font-size:1rem;color:var(--white);line-height:1.4}
+.modal-genre-tag{display:inline-block;background:rgba(255,215,0,.18);border:1px solid var(--gold);color:var(--gold);padding:4px 16px;border-radius:20px;font-size:.9rem;letter-spacing:.5px}
+.modal-note-val{font-style:italic;color:rgba(255,255,255,.65);font-size:.9rem}
+
+/* POPCORN */
+#popcorn-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
+.kernel{position:absolute;border-radius:60% 40% 55% 35%/50% 65% 45% 55%;animation:kernelFly var(--dur,.8s) ease-out var(--delay,0s) both}
+
+@keyframes kernelFly{
+  0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1}
+  22%{transform:translate(calc(var(--tx)*.35),calc(var(--ty)*.35 - 55px)) scale(1.4) rotate(calc(var(--rot)*.25));opacity:1}
+  65%{opacity:.85}
+  100%{transform:translate(var(--tx),var(--ty)) scale(.15) rotate(var(--rot));opacity:0}
+}
+
+/* FOOTER */
+.footer{background:linear-gradient(180deg,#002070,#001040);border-top:5px solid var(--gold);padding:18px 28px;text-align:center}
+.footer-logo{font-family:'Bangers',cursive;font-size:1.6rem;color:var(--gold);letter-spacing:3px;margin-bottom:5px}
+.footer-text{font-family:'Anton',sans-serif;font-size:.68rem;letter-spacing:3px;color:rgba(255,255,255,.4)}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .header{padding:22px 16px 18px}
+  .controls,.tabs,.card-grid,.count-bar{padding-left:14px;padding-right:14px}
+  .tab-btn{padding:12px 16px;font-size:.85rem;letter-spacing:2px}
+}
+</style>
+</head>
+<body>
+
+<div id="popcorn-container"></div>
+
+<header class="header">
+  <div class="header-stripe"></div>
+  <div class="header-logo">RURAL JUROR RENTALS</div>
+  <div class="header-stars">★ ★ ★ ★ ★</div>
+  <div class="header-sub">YOUR NEIGHBORHOOD VIDEO RENTAL DESTINATION</div>
+  <div class="header-tag">Open 7 Days · New Releases Every Tuesday · Free Popcorn With Membership</div>
+  <div class="header-badge">🍿 MEMBERS SINCE FOREVER 🍿</div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search-input" class="search-input" placeholder="Search titles...">
+  </div>
+  <select id="genre-select" class="genre-select">
+    <option value="">All Genres</option>
+  </select>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="film">🎬 Film</button>
+  <button class="tab-btn" data-tab="tv">📺 TV</button>
+  <button class="tab-btn" data-tab="other">⭐ Other</button>
+</div>
+
+<div class="count-bar" id="count-bar"></div>
+<div class="card-grid" id="card-grid"></div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card" id="modal-card">
+    <div class="modal-top">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="vhs-wrap">
+      <div class="vhs" id="modal-vhs">
+        <div class="vhs-label" id="vhs-label">
+          <div class="vhs-emoji" id="vhs-emoji">📼</div>
+          <div class="vhs-genre-name" id="vhs-genre-name"></div>
+        </div>
+        <div class="vhs-window">
+          <div class="vhs-reel"></div>
+          <div class="vhs-reel"></div>
+        </div>
+        <div class="vhs-slot"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <div class="modal-label">Year</div>
+        <div class="modal-value" id="modal-year"></div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Genre</div>
+        <div class="modal-value"><span class="modal-genre-tag" id="modal-genre"></span></div>
+      </div>
+      <div class="modal-field" id="modal-note-field">
+        <div class="modal-label">Collection / Note</div>
+        <div class="modal-value modal-note-val" id="modal-note"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-logo">🎬 RURAL JUROR RENTALS 🎬</div>
+  <div class="footer-text">BE KIND, REWIND &nbsp;·&nbsp; ALL TITLES SUBJECT TO AVAILABILITY &nbsp;·&nbsp; LATE FEES APPLY</div>
+</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+// Each entry: [title, year, genre, note]
+const RAW = {
+film:[
+["Fargo","1996","Crime, Thriller","Cohen Brother Collection"],
+["Raising Arizona","1987","Comedy, Crime","Cohen Brother Collection"],
+["Millers Crossing","1990","Crime, Drama","Cohen Brother Collection"],
+["Blood Simple","1984","Crime, Thriller","Cohen Brother Collection"],
+["Barton Fink","1991","Comedy, Thriller","Cohen Brother Collection"],
+["Brides Maids","2001","Comedy, Romance",""],
+["American Beauty","1999","Drama, Comedy",""],
+["Friends With Benefts","2011","Comedy, Romance",""],
+["Easy A","2010","Comedy, Romance",""],
+["The Bounty Hunter","2010","Action, Comedy",""],
+["Waterworld","1995","Action, Sci-fi",""],
+["Weird Science","1985","Comedy, Sci-fi",""],
+["Beasts of the Southern Wild","2012","Fantasy, Drama",""],
+["Splash","1984","Comedy, Romance",""],
+["Enemy at the Gates","2001","War, Action",""],
+["Malibu's Most Wanted","2003","Comedy",""],
+["Let Me In","2010","Horror, Fantasy",""],
+["Son in Law","1993","Comedy",""],
+["The Secret Garden","1993","Fantasy, Family","4 Film Favorites: Children's Fantasy"],
+["The Witches","1990","Family, Horror","4 Film Favorites: Children's Fantasy"],
+["5 Children and It","2004","Family, Adventure","4 Film Favorites: Children's Fantasy"],
+["The Neverending Story","1984","Fantasy, Family","4 Film Favorites: Children's Fantasy"],
+["High Fidelity","2000","Comedy, Romance",""],
+["Pi","1998","Thriller, Sci-fi",""],
+["Kun Fu Hustle","2004","Action, Comedy",""],
+["Thirteen Ghosts","2001","Horror, Mystery",""],
+["Antibodies","2005","Horror, Thriller",""],
+["Stewie Griffen: The Untold Story","2005","Comedy, Animation",""],
+["Tommy","1975","Musical, Fantasy",""],
+["A Little Princess","1995","Fantasy, Family","Double Feature"],
+["A Fistful of Dollars","1964","Western, Action","United Artists Cinema Greats Collection"],
+["Dr. No","1962","Action, Thriller","United Artists Cinema Greats Collection"],
+["The Magnificent Seven","1960","Western, Action","United Artists Cinema Greats Collection"],
+["The Pink Pather","1963","Comedy, Family","United Artists Cinema Greats Collection"],
+["Once Upon A Time In Mexico","2003","Western, Action",""],
+["Bill and Ted's Bogus Journey","1991","Comedy, Sci-fi","Pizza Hut Movie (Sleeved)"],
+["The Invention of Lying","2009","Comedy, Romance","CD clear case"],
+["Less Than Zero","1987","Crime, Drama","Totally Awesome '80s Double Feature"],
+["The Pick-up Artist","1987","Comedy, Romance","Totally Awesome '80s Double Feature"],
+["Antitrust","2001","Action, Thriller","SBC Companies Presents…"],
+["Benny and June","1993","Romance, Comedy","SBC Companies Presents…"],
+["Cadillac Man","1990","Comedy, Crime","SBC Companies Presents…"],
+["Big","1988","Family, Comedy",""],
+["Never Been Kissed","1999","Comedy, Romance",""],
+["Jarhead","2005","War, Action",""],
+["Leprechaun In The Hood","2000","Horror, Comedy",""],
+["The Man Who Wasn't There","2001","Crime, Drama",""],
+["Wanted","2008","Action, Thriller","Missing Disc"],
+["Scary Movie 3","2003","Comedy, Horror",""],
+["Philadelphia","1993","Drama",""],
+["Charlie's Angels Full Throttle","2003","Action, Comedy",""],
+["Away We Go","2009","Comedy, Romance","Netflix Rental"],
+["The Texas Chainsaw Massacre","2003","Horror",""],
+["Sympathy For Mr. Vengeance","2002","Thriller, Crime",""],
+["Rent","2005","Musical, Romance",""],
+["The Land of the Lost","2009","Comedy, Adventure",""],
+["X-Men","2000","Action, Sci-fi",""],
+["Red","2010","Action, Comedy","Red Double Feature"],
+["Red 2","2013","Action, Comedy","Red Double Feature"],
+["Catch Me If You Can","2002","Crime, Comedy",""],
+["Prometheus","2012","Sci-fi, Horror","Angel Double Feature"],
+["City of Angels","1998","Romance, Fantasy","Angel Double Feature"],
+["Michael","1996","Comedy, Fantasy",""],
+["Dumb and Dumber: Unrated","1994","Comedy",""],
+["Blue Hawaii","1961","Musical, Comedy",""],
+["Romeo + Juliet","1996","Romance, Crime",""],
+["Blades of Glory","2007","Comedy",""],
+["Looper","2012","Action, Sci-fi",""],
+["Leon: The Professional","1994","Action, Crime",""],
+["Maniac","1980","Horror, Crime",""],
+["The Strangers","2008","Horror, Mystery",""],
+["Audition","1999","Horror, Mystery",""],
+["Dreams in the Witch House","2005","Horror","Masters of Horror Double Feature"],
+["Cigarette Burns","2005","Horror, Thriller","Masters of Horror Double Feature"],
+["Legend","1985","Adventure, Fantasy",""],
+["Shopgirl","2005","Romance, Comedy",""],
+["Moulin Rouge!","2001","Musical, Romance","Two Copies"],
+["The Fault in Our Stars","2014","Romance, Comedy",""],
+["Batman","1989","Action, Adventure","4 Film Favorites: Batman Collection"],
+["Batman Returns","1992","Action, Adventure","4 Film Favorites: Batman Collection"],
+["Batman Forever","1995","Action, Adventure","4 Film Favorites: Batman Collection"],
+["Batman & Robin","1997","Action, Adventure","4 Film Favorites: Batman Collection"],
+["Rushmore","1998","Comedy, Romance",""],
+["X2: X-Men United","2003","Action, Sci-fi",""],
+["X-Men: The Last Stand","2006","Action, Sci-fi",""],
+["Terminator 2: Judgment Day","1991","Action, Sci-fi",""],
+["Warrior","2011","Action",""],
+["Possession","1981","Horror, Fantasy","Korean Edition"],
+["Candyman","1992","Horror, Fantasy",""],
+["G.I Blues","1960","Musical, Comedy","Elvis Double Feature"],
+["King Creole","1958","Musical, Crime","Elvis Double Feature"],
+["Spider-Man","2002","Action, Sci-fi","Spider-Man Trilogy"],
+["Spider-Man 2","2004","Action, Sci-fi","Spider-Man Trilogy"],
+["Spider-Man 3","2007","Action, Sci-fi","Spider-Man Trilogy"],
+["Turbo","2013","Adventure, Animation",""],
+["Wall-E","2008","Family, Sci-fi",""],
+["Samurai X: Trust & Betrayal","1999","Anime","Samurai X Collection"],
+["Samurai X: Reflection","2001","Anime","Samurai X Collection"],
+["House on Haunted Hill","1959","Horror, Crime","The Ultimate Horror Collection: Sleepless Nights"],
+["The Human Monster","1939","Horror, Crime","The Ultimate Horror Collection: Sleepless Nights"],
+["Indestructible Man","1956","Sci-fi, Horror","The Ultimate Horror Collection: Sleepless Nights"],
+["Invisible Ghost","1941","Horror, Mystery","The Ultimate Horror Collection: Sleepless Nights"],
+["The Last Man on Earth","1964","Horror, Sci-fi","The Ultimate Horror Collection: Sleepless Nights"],
+["The Phantom Creeps","1939","Sci-fi, Horror","The Ultimate Horror Collection: Sleepless Nights"],
+["Nightmare Castle","1965","Horror","The Ultimate Horror Collection: Sleepless Nights"],
+["Unnatural","1952","Horror, Sci-fi","The Ultimate Horror Collection: Sleepless Nights"],
+["The Little Shop of Horrors","1960","Horror, Comedy","The Ultimate Horror Collection: Sleepless Nights"],
+["Carnival of Souls","1962","Horror, Mystery","The Ultimate Horror Collection: Sleepless Nights"],
+["The Vampire Happening","1971","Horror, Comedy","The Ultimate Horror Collection: Sleepless Nights"],
+["The Satanic Rites of Dracula","1973","Horror, Drama","The Ultimate Horror Collection: Sleepless Nights"],
+["Wolfman","1979","Horror","The Ultimate Horror Collection: Sleepless Nights"],
+["Night of the Living Dead","1968","Horror, Sci-fi","The Ultimate Horror Collection: Sleepless Nights"],
+["The Thirsty Dead","1974","Horror, Adventure","The Ultimate Horror Collection: Sleepless Nights"],
+["Messiah of Evil","1973","Horror","The Ultimate Horror Collection: Sleepless Nights"],
+["White Zombie","1932","Horror, Adventure","The Ultimate Horror Collection: Sleepless Nights"],
+["The Killer Shrews","1959","Horror, Sci-fi","The Ultimate Horror Collection: Sleepless Nights"],
+["The Monster Walks","1932","Horror, Mystery","The Ultimate Horror Collection: Sleepless Nights"],
+["Creature From the Haunted Sea","1961","Horror, Comedy","The Ultimate Horror Collection: Sleepless Nights"],
+["Rock My World","2002","Comedy, Musical",""],
+["The Running Man","1987","Action, Sci-fi",""],
+["We're Back","1993","Family, Adventure",""],
+["Primal Fear","1996","Thriller, Crime",""],
+["The Time Traveler's Wife","2009","Romance, Sci-fi",""],
+["Wishmaster","1997","Horror, Fantasy","Wishmaster Set"],
+["Wishmaster 2","1999","Horror, Fantasy","Wishmaster Set"],
+["Free Willy","1993","Adventure, Drama","Free Willy Collection"],
+["Free Willy 2: The Adventure Home","1995","Adventure, Drama","Free Willy Collection"],
+["Free Willy 3: The Rescue","1997","Adventure, Drama","Free Willy Collection"],
+["He's Just Not That Into You","2009","Comedy, Romance",""],
+["Unfaithful","2002","Thriller, Romance",""],
+["Identity","2003","Horror, Mystery",""],
+["Seven Pounds","2008","Thriller, Drama",""],
+["Simon Birch","1998","Family, Comedy",""],
+["The Notebook","2004","Romance, Drama",""],
+["Revolutionary Road","2008","Romance, Drama",""],
+["The Number 23","2007","Thriller, Mystery",""],
+["The Curious Case of Benjamin Button","2008","Romance, Fantasy",""],
+["The Wedding Date","2005","Comedy, Romance",""],
+["(500) Days of Summer","2009","Romance, Comedy",""],
+["Love Actually","2003","Comedy, Romance",""],
+["Elf","2003","Fantasy, Adventure",""],
+["Observe and Report","2009","Comedy, Crime",""],
+["The Man in the Moon","1991","Romance, Drama",""],
+["P.S. I Love You","2007","Romance, Comedy",""],
+["Closer","2004","Romance, Drama",""],
+["Drop Dead Fred","1991","Comedy, Fantasy",""],
+["The Shawshank Redemption","1994","Crime, Drama",""],
+["17 Again","2009","Comedy, Fantasy",""],
+["Once","2007","Musical, Romance",""],
+["The Boondock Saints","1999","Action, Thriller",""],
+["The Heartbreak Kid","2007","Comedy, Romance",""],
+["Kalifornia","1993","Thriller, Crime","Brad Pitt Triple Feature"],
+["Mr. & Mrs. Smith","2005","Action, Comedy","Brad Pitt Triple Feature"],
+["Thelma & Louise","1991","Crime, Adventure","Brad Pitt Triple Feature"],
+["Predator","1987","Action, Horror","Predator Triple Feature"],
+["Predator 2","1990","Action, Sci-fi","Predator Triple Feature"],
+["Predators","2010","Action, Sci-fi","Predator Triple Feature"],
+["IT","1990","Horror, Drama",""],
+["Crazy Stupid Love","2011","Romance, Comedy",""],
+["The Big Lebowski","1998","Comedy, Crime",""],
+["Stand By Me","1986","Adventure, Comedy",""],
+["Hollow Man","2000","Horror, Sci-fi",""],
+["Tuck Everlasting","2002","Family, Romance",""],
+["The Twighlight Saga: Breaking Dawn - Part One","2011","Family, Romance",""],
+["Watchmen","2009","Action, Sci-fi",""],
+["Insidious","2010","Horror, Mystery",""],
+["Brokeback Mountain","2005","Romance, Western",""],
+["Out Cold","2001","Comedy",""],
+["Music and Lyrics","2007","Comedy, Romance",""],
+["Must Love Dogs","2005","Comedy, Romance",""],
+["Lock, Stock and Two Smoking Barrels","1998","Comedy, Crime",""],
+["The Lake House","2006","Romance, Sci-fi",""],
+["Beerfest","2006","Comedy, Adventure",""],
+["Mr. Holland's Opus","1995","Musical, Drama",""],
+["The Help","2011","Drama, Comedy",""],
+["Sixteen Candles","1984","Comedy, Romance",""],
+["One Day","2011","Romance, Comedy",""],
+["The Last Samurai","2003","Action, War",""],
+["Fantastic Mr. Fox","2009","Family, Comedy",""],
+["Scary Movie 4","2006","Comedy, Horror",""],
+["The Texas Chainsaw Massacre","1974","Horror, Crime",""],
+["Pretty in Pink","1986","Romance, Comedy",""],
+["I Now Pronouce You Chuck & Larry","2007","Comedy, Romance",""],
+["The Lord of The Rings: The Two Towers","2002","Fantasy, Adventure",""],
+["The Room","2003","Comedy, Drama",""],
+["Match Point","2005","Thriller, Romance",""],
+["The Departed","2006","Crime, Thriller",""],
+["28 Days","2000","Comedy, Drama",""],
+["Hocus Pocus","1993","Family, Comedy",""],
+["Love & Other Drugs","2010","Comedy, Romance",""],
+["Earnest Scared Stupid","1991","Family, Horror",""],
+["Donnie Darko","2001","Sci-fi, Thriller",""],
+["Dead Alive","1992","Horror, Comedy",""],
+["I Love You, Man","2009","Comedy, Romance",""],
+["Grown Ups","2010","Comedy, Drama","The LOL Double Feature"],
+["Grown Ups 2","2013","Comedy","The LOL Double Feature"],
+["Black Swan","2010","Horror, Drama",""],
+["Freddy vs. Jason","2003","Horror, Action",""],
+["Better Off Dead","1985","Comedy, Romance",""],
+["Congo","1995","Adventure, Action",""],
+["28 Days Later","2002","Horror, Sci-fi",""],
+["Jailhouse Rock","1957","Musical, Romance",""],
+["Mystic River","2003","Thriller, Crime",""],
+["The Ring","2002","Horror, Mystery",""],
+["The Brothers Solomon","2007","Comedy",""],
+["There's Something About Mary","1998","Comedy, Romance",""],
+["The Breakfast Club","1985","Comedy, Drama",""],
+["The Twighlight Saga: Eclipse","2010","Romance, Fantasy",""],
+["3:10 to Yuma","2007","Western, Action",""],
+["30 Days of Night","2007","Horror, Action",""],
+["Moon","2009","Sci-fi, Mystery",""],
+["Saving Silverman","2001","Comedy, Crime",""],
+["Murder By Numbers","2002","Thriller, Crime",""],
+["Precious","2009","Drama",""],
+["The Lord of The Rings: The Rerurn of the King","2003","Fantasy, Adventure",""],
+["The Lord of The Rings: The Fellowship of the Ring","2001","Fantasy, Adventure",""],
+["Synecdoche, New York","2008","Comedy, Drama",""],
+["Charlie St. Cloud","2010","Romance, Fantasy",""],
+["Water for Elephants","2011","Romance, Drama",""],
+["Yes Man","2008","Comedy, Romance",""],
+["The Wizard of Oz","1939","Musical, Fantasy",""],
+["From Dusk Till Dawn","1996","Horror, Action",""],
+["Interview with the Vampire","1994","Horror, Fantasy",""],
+["Pieces","1983","Horror, Crime",""],
+["The Butterfly Effect","2004","Thriller, Sci-fi",""],
+["Natural Born Killers","1994","Crime, Action",""],
+["Grind","2003","Adventure, Comedy",""],
+["The Life Aquatic with Steve Zissou","2004","Comedy, Adventure",""],
+["The Twighlight Saga: New Moon","2009","Romance, Fantasy",""],
+["Girl, Interupted","1999","Thriller, Drama",""],
+["Lost in Translation","2003","Romance, Comedy",""],
+["Cabin Fever","2002","Horror, Comedy",""],
+["Aviator","2004","Adventure, Drama","4 Film Favorites: Leonardo DiCaprio"],
+["Body of Lies","2008","Thriller, Action","4 Film Favorites: Leonardo DiCaprio"],
+["Blood Diamond","2006","Thriller, War","4 Film Favorites: Leonardo DiCaprio"],
+["Hellraiser","1987","Horror, Fantasy","Hellraiser Quartet of Torment"],
+["Hellraiser 2","1988","Horror, Fantasy","Hellraiser Quartet of Torment"],
+["Hellraiser 3: Hell on Earth","1992","Horror, Fantasy","Hellraiser Quartet of Torment"],
+["Hellraiser: Bloodline","1996","Horror, Fantasy","Hellraiser Quartet of Torment"]
+],
+tv:[
+["Blue Planet: Seas of Life","2007","Documentary",""],
+["Planet Earth","2006","Documentary",""],
+["Upright Citizens Brigade: Season One","1998","Comedy",""],
+["Sealab 2021: Season Three","2003","Comedy, Animation",""],
+["The Ren & Stimpy Show Uncut: Season One, Season Two","1991–1993","Comedy, Animation",""],
+["The Venture Brothers: Season One","2003","Comedy, Animation",""],
+["Chappelle's Show: Season One","2004","Comedy",""],
+["Sealab 2021: Season One","2001","Comedy, Animation",""],
+["Sealab 2021: Season Two","2002","Comedy, Animation",""],
+["Upright Citizens Brigade: Season Two","1999","Comedy",""],
+["Workaholics: Season One","2011","Comedy",""],
+["Flight of the Conchords: Season One","2007","Comedy, Musical",""],
+["Yu Yu Hakusho: Part One","1990","Anime","Episodes 1–25"],
+["Whose Line Is It Anyway? Season One, Vol. One","1998","Comedy",""],
+["Ruroni Kenshin Part One","1996–1998","Anime",""],
+["Ruroni Kenshin Part Two","1996–1998","Anime",""],
+["Glee: Season One, Vol. One","2009","Comedy, Musical",""],
+["Frisky Dingo: Season One","2008","Comedy, Animation",""],
+["Frisky Dingo: Season Two","2009","Comedy, Animation",""],
+["Boy Meets World: The Complete Series","1993–2000","Comedy, Drama",""]
+],
+other:[
+["SNL The Best of Chris Kattan","2003","Comedy",""],
+["Elvis Aloha from Hawaii","1973","Musical, Documentary",""],
+["Zach Galifianakis: Live at the Purple Onion","2006","Comedy Special",""],
+["The Comedians of Comedy","2005","Comedy, Documentary",""],
+["Elvis: The King In Hollywood","2002","Documentary",""],
+["Elvis: His Best Friend Remembers","2002","Documentary",""],
+["Elvis: On Tour","2010","Documentary",""]
+]
+};
+
+// Convert to objects
+const DATA = {};
+['film','tv','other'].forEach(tab=>{
+  DATA[tab] = RAW[tab].map(r=>({title:r[0],year:r[1],genre:r[2],note:r[3]}));
+});
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let activeTab='film', searchQ='', selGenre='';
+
+// ── GENRE DROPDOWN ───────────────────────────────────────────────────────────
+function buildGenreOptions(){
+  const set=new Set();
+  Object.values(DATA).forEach(arr=>arr.forEach(item=>{
+    item.genre.split(', ').forEach(g=>set.add(g.trim()));
+  }));
+  const sel=document.getElementById('genre-select');
+  [...set].sort().forEach(g=>{
+    const o=document.createElement('option');
+    o.value=g; o.textContent=g;
+    sel.appendChild(o);
+  });
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+function getFiltered(){
+  const q=searchQ.toLowerCase();
+  return DATA[activeTab].filter(item=>{
+    const matchQ=!q||item.title.toLowerCase().includes(q)||item.genre.toLowerCase().includes(q)||item.note.toLowerCase().includes(q);
+    const matchG=!selGenre||item.genre.toLowerCase().includes(selGenre.toLowerCase());
+    return matchQ&&matchG;
+  });
+}
+
+function renderCards(){
+  const grid=document.getElementById('card-grid');
+  const bar=document.getElementById('count-bar');
+  const items=getFiltered();
+  bar.textContent=`${items.length} TITLE${items.length!==1?'S':''} IN STOCK`;
+  grid.innerHTML='';
+  if(!items.length){
+    const e=document.createElement('div');
+    e.className='empty';
+    e.textContent='NO TITLES FOUND — TRY ANOTHER SEARCH';
+    grid.appendChild(e);
+    return;
+  }
+  items.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="card-top">
+        <div class="card-title">${esc(item.title)}</div>
+        <div class="card-year">${esc(item.year)}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-genre">${esc(item.genre)}</div>
+        ${item.note?`<div class="card-note">${esc(item.note)}</div>`:''}
+      </div>
+      <div class="card-tape"></div>`;
+    card.addEventListener('click',e=>openModal(item,card));
+    grid.appendChild(card);
+  });
+}
+
+function esc(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── GENRE → VHS CONFIG ───────────────────────────────────────────────────────
+const GENRE_VHS={
+  'Action':         {emoji:'💥',color:'#b71c1c',bg:'#7f0000'},
+  'Adventure':      {emoji:'🗺️', color:'#1b5e20',bg:'#003300'},
+  'Animation':      {emoji:'🎨',color:'#6a1b9a',bg:'#38006b'},
+  'Anime':          {emoji:'⚔️', color:'#1565c0',bg:'#003c8f'},
+  'Comedy':         {emoji:'😂',color:'#e65100',bg:'#ac1900'},
+  'Comedy Special': {emoji:'🎤',color:'#bf360c',bg:'#870000'},
+  'Crime':          {emoji:'🔍',color:'#004d40',bg:'#00251a'},
+  'Documentary':    {emoji:'🎥',color:'#37474f',bg:'#102027'},
+  'Drama':          {emoji:'🎭',color:'#4a148c',bg:'#12005e'},
+  'Family':         {emoji:'🏡',color:'#e64a19',bg:'#ac0800'},
+  'Fantasy':        {emoji:'🧙',color:'#4527a0',bg:'#000070'},
+  'Horror':         {emoji:'💀',color:'#880e0e',bg:'#4a0000'},
+  'Musical':        {emoji:'🎵',color:'#880e4f',bg:'#560027'},
+  'Mystery':        {emoji:'🕵️', color:'#1a237e',bg:'#000051'},
+  'Romance':        {emoji:'❤️', color:'#ad1457',bg:'#78002e'},
+  'Sci-fi':         {emoji:'🚀',color:'#006064',bg:'#00363a'},
+  'Thriller':       {emoji:'🔪',color:'#263238',bg:'#000a12'},
+  'War':            {emoji:'🎖️', color:'#558b2f',bg:'#255d00'},
+  'Western':        {emoji:'🤠',color:'#6d4c41',bg:'#40241a'},
+};
+const VHS_DEFAULT={emoji:'📼',color:'#003087',bg:'#001a52'};
+
+function setVHS(genre){
+  const primary=genre.split(',')[0].trim();
+  const cfg=GENRE_VHS[primary]||VHS_DEFAULT;
+  document.getElementById('vhs-label').style.background=`linear-gradient(145deg,${cfg.color},${cfg.bg})`;
+  document.getElementById('vhs-emoji').textContent=cfg.emoji;
+  document.getElementById('vhs-genre-name').textContent=primary.toUpperCase();
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+let modalOpen=false;
+
+function openModal(item,cardEl){
+  const rect=cardEl.getBoundingClientRect();
+  spawnPopcorn(rect);
+
+  document.getElementById('modal-title').textContent=item.title;
+  document.getElementById('modal-year').textContent=item.year;
+  document.getElementById('modal-genre').textContent=item.genre;
+  const nf=document.getElementById('modal-note-field');
+  const nv=document.getElementById('modal-note');
+  if(item.note){nf.style.display='';nv.textContent=item.note;}
+  else{nf.style.display='none';}
+
+  setVHS(item.genre);
+
+  document.getElementById('modal-overlay').classList.add('open');
+  modalOpen=true;
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  modalOpen=false;
+}
+
+document.getElementById('modal-close').addEventListener('click',closeModal);
+document.getElementById('modal-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal-overlay'))closeModal();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modalOpen)closeModal();});
+
+// ── POPCORN ──────────────────────────────────────────────────────────────────
+const KERNEL_COLORS=['#FFFDE7','#FFF9C4','#FFD54F','#FFB300','#FFF8DC','#FFFFFF','#F5F5DC','#FFECB3'];
+const KERNEL_SHAPES=[
+  '60% 40% 55% 35% / 50% 65% 45% 55%',
+  '40% 60% 35% 65% / 55% 45% 60% 40%',
+  '50% 50% 60% 30% / 40% 60% 50% 50%',
+  '70% 30% 40% 60% / 60% 40% 55% 45%',
+  '35% 65% 55% 45% / 50% 50% 40% 60%'
+];
+
+function spawnPopcorn(rect){
+  const container=document.getElementById('popcorn-container');
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const count=22;
+
+  for(let i=0;i<count;i++){
+    const kernel=document.createElement('div');
+    kernel.className='kernel';
+    const w=10+Math.random()*12;
+    const h=8+Math.random()*9;
+    const angle=(Math.PI*2*i/count)+(Math.random()-0.5)*0.6;
+    const dist=90+Math.random()*180;
+    const tx=Math.cos(angle)*dist;
+    const ty=Math.sin(angle)*dist;
+    const rot=(Math.random()-0.5)*900;
+    const dur=0.55+Math.random()*0.55;
+    const delay=Math.random()*0.08;
+
+    kernel.style.cssText=`
+      left:${cx}px;top:${cy}px;
+      width:${w}px;height:${h}px;
+      margin-left:${-w/2}px;margin-top:${-h/2}px;
+      background:${KERNEL_COLORS[Math.floor(Math.random()*KERNEL_COLORS.length)]};
+      border-radius:${KERNEL_SHAPES[Math.floor(Math.random()*KERNEL_SHAPES.length)]};
+      box-shadow:0 1px 3px rgba(0,0,0,.4);
+      --tx:${tx}px;--ty:${ty}px;--rot:${rot}deg;
+      --dur:${dur}s;--delay:${delay}s;
+    `;
+    container.appendChild(kernel);
+    kernel.addEventListener('animationend',()=>kernel.remove(),{once:true});
+  }
+}
+
+// ── TABS & CONTROLS ──────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTab=btn.dataset.tab;
+    renderCards();
+  });
+});
+
+document.getElementById('search-input').addEventListener('input',e=>{
+  searchQ=e.target.value;
+  renderCards();
+});
+
+document.getElementById('genre-select').addEventListener('change',e=>{
+  selGenre=e.target.value;
+  renderCards();
+});
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+buildGenreOptions();
+renderCards();
+</script>
+</body>
+</html>
