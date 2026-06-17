@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rural Juror Rentals</title>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Anton&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Anton&family=Lato:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&family=Creepster&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--blue:#003087;--blue-dark:#001a52;--blue-mid:#0a2060;--blue-light:#1a4a9c;--gold:#FFD700;--gold-dark:#c9a800;--cream:#FFF8DC;--white:#fff;--bg:#000c20}
@@ -98,6 +98,93 @@ body{background:var(--bg);color:var(--white);font-family:'Lato',sans-serif;min-h
   100%{transform:translate(var(--tx),var(--ty)) scale(.15) rotate(var(--rot));opacity:0}
 }
 
+/* ── SECRET PENTAGON ── */
+.header-stars{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 4px}
+.rjr-star{color:var(--gold);font-size:.85rem;line-height:1}
+.rjr-pentagon{cursor:pointer;filter:drop-shadow(0 0 4px rgba(160,0,0,.8));transition:filter .25s,transform .25s;flex-shrink:0;display:inline-block}
+.rjr-pentagon:hover{filter:drop-shadow(0 0 10px #ff1100) drop-shadow(0 0 4px #ff4400);transform:scale(1.3)}
+
+/* ── CRT CONSOLE MODAL ── */
+.console-overlay{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:4000;display:none;align-items:center;justify-content:center}
+.console-overlay.open{display:flex}
+.console-box{width:min(580px,95vw);background:#020502;border:2px solid #00bb00;border-radius:4px;padding:30px 28px;position:relative;overflow:hidden;box-shadow:0 0 50px rgba(0,180,0,.25),inset 0 0 80px rgba(0,0,0,.9)}
+.console-box::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px);pointer-events:none;z-index:1}
+.console-box::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75) 100%);pointer-events:none;z-index:1}
+.console-inner{position:relative;z-index:2}
+.console-title{color:#00bb00;font-family:'Press Start 2P',monospace;font-size:.55rem;letter-spacing:2px;margin-bottom:20px;text-shadow:0 0 8px #00cc00}
+.doomguy{display:block;margin:0 auto 18px;image-rendering:pixelated}
+.console-line{color:#00aa00;font-family:'Press Start 2P',monospace;font-size:.48rem;line-height:2;text-shadow:0 0 5px rgba(0,180,0,.5);margin-bottom:4px}
+.console-prompt-row{display:flex;align-items:center;gap:6px;margin-top:16px}
+.console-prompt-sym{color:#00bb00;font-family:'Press Start 2P',monospace;font-size:.52rem;text-shadow:0 0 6px #00cc00}
+.console-input{background:transparent;border:none;border-bottom:1px solid #009900;color:#00ff00;font-family:'Press Start 2P',monospace;font-size:.52rem;outline:none;flex:1;letter-spacing:4px;text-shadow:0 0 6px rgba(0,255,0,.7);caret-color:#00ff00}
+.console-msg{font-family:'Press Start 2P',monospace;font-size:.42rem;margin-top:14px;min-height:1.6em;line-height:1.8}
+.console-msg.error{color:#cc0000;text-shadow:0 0 6px rgba(200,0,0,.5)}
+.console-msg.success{color:#cc0000;text-shadow:0 0 10px rgba(180,0,0,.8)}
+.console-box.exit-mode .console-prompt-row{display:none}
+.console-msg.exit-blink{color:#cc0000;text-shadow:0 0 10px rgba(180,0,0,.8);animation:exitBlink .9s ease-in-out infinite}
+@keyframes exitBlink{0%,100%{opacity:1}50%{opacity:.15}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.blink{animation:blink 1s infinite}
+
+/* ── VALIMOREK VHS PAGE ── */
+#valimorek-page{position:fixed;inset:0;z-index:500;background:#050000;display:none;flex-direction:column;overflow:hidden;opacity:0;transition:opacity .5s ease}
+#valimorek-page.v-visible{display:flex}
+#valimorek-page.v-in{opacity:1}
+.val-header{background:linear-gradient(180deg,#1a0000,#080000);border-bottom:4px solid #8b0000;padding:22px 28px 16px;text-align:center;position:relative;overflow:hidden}
+.val-header::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#8b0000 0,#8b0000 44px,#000 44px,#000 88px)}
+.val-logo{font-family:'Creepster',cursive;font-size:clamp(2.2rem,6vw,4.8rem);color:#cc0000;letter-spacing:4px;text-shadow:3px 3px 0 #000,0 0 30px rgba(180,0,0,.5);line-height:1;margin-top:6px}
+.val-sub{font-family:'Press Start 2P',monospace;font-size:.42rem;color:#550000;letter-spacing:3px;margin-top:8px}
+.val-pentagons{display:flex;align-items:center;justify-content:center;gap:14px;margin:12px 0 6px}
+.val-pent-svg{width:34px;height:34px;flex-shrink:0;cursor:default;overflow:visible;filter:drop-shadow(0 0 2px rgba(80,0,0,.5));transition:filter .2s,transform .2s}
+.val-pent-exit-svg{cursor:pointer;animation:goldPulse 2.2s ease-in-out infinite}
+.val-pent-exit-svg:hover{filter:drop-shadow(0 0 14px rgba(255,200,0,.95)) drop-shadow(0 0 6px rgba(255,160,0,.8));transform:scale(1.25)}
+@keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(220,170,0,.65)) drop-shadow(0 0 2px rgba(180,120,0,.5))}50%{filter:drop-shadow(0 0 14px rgba(255,215,0,.95)) drop-shadow(0 0 6px rgba(220,170,0,.8))}}
+.val-top-bar{flex-shrink:0}
+.val-scroll-area{flex:1;overflow-y:auto}
+.val-controls{background:#080000;border-bottom:2px solid #3a0000;padding:12px 22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.val-search-wrap{flex:1;min-width:180px;position:relative}
+.val-search-wrap::before{content:'>';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:'Press Start 2P',monospace;font-size:.45rem;color:#550000;pointer-events:none}
+.val-search{width:100%;padding:9px 12px 9px 30px;background:#0a0000;border:1px solid #4a0000;border-radius:3px;color:#aa3333;font-family:'Press Start 2P',monospace;font-size:.45rem;outline:none}
+.val-search::placeholder{color:#330000}
+.val-search:focus{border-color:#8b0000}
+.val-genre-sel{padding:9px 12px;background:#0a0000;border:1px solid #4a0000;border-radius:3px;color:#aa3333;font-family:'Press Start 2P',monospace;font-size:.4rem;outline:none;cursor:pointer;min-width:150px}
+.val-genre-sel option{background:#080000}
+.val-count{padding:7px 22px;background:#050000;font-family:'Press Start 2P',monospace;font-size:.38rem;color:#330000;border-bottom:1px solid rgba(80,0,0,.2)}
+.val-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px;padding:18px 22px 44px}
+.val-card{background:linear-gradient(155deg,#110000,#050000);border:1px solid #2a0000;border-radius:5px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative}
+.val-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.85),0 0 12px rgba(120,0,0,.25);border-color:#6a0000}
+.val-card-top{background:linear-gradient(90deg,#2a0000,#150000);padding:8px 10px;min-height:46px;position:relative;border-bottom:1px solid #3a0000}
+.val-card-title{font-family:'Creepster',cursive;font-size:1.05rem;color:#bb2222;letter-spacing:1px;line-height:1.2;padding-right:34px}
+.val-card-year{position:absolute;top:5px;right:6px;background:#000;color:#550000;font-family:'Press Start 2P',monospace;font-size:.4rem;padding:2px 5px;border:1px solid #2a0000;border-radius:2px}
+.val-card-body{padding:8px 10px 10px}
+.val-card-genre{display:inline-block;background:rgba(100,0,0,.15);border:1px solid rgba(100,0,0,.35);color:#662222;font-family:'Press Start 2P',monospace;font-size:.38rem;padding:2px 6px;border-radius:6px}
+.val-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#220000;font-family:'Creepster',cursive;font-size:1.8rem;letter-spacing:3px}
+
+/* ── BLOOD ── */
+#blood-container{position:fixed;inset:0;pointer-events:none;z-index:1900;overflow:hidden}
+.b-blob{position:absolute;background:#8b0000;animation:blobOut var(--d,.4s) ease-out forwards}
+.b-drip{position:absolute;width:var(--w,3px);background:linear-gradient(180deg,#8b0000,#5a0000 60%,transparent);border-radius:0 0 2px 2px;transform-origin:top;height:0;animation:dripGrow var(--d2,1s) ease-in var(--dl,.35s) forwards}
+@keyframes blobOut{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(calc(var(--tx) - 50%),calc(var(--ty) - 50%)) scale(1);opacity:.9}}
+@keyframes dripGrow{0%{height:0;opacity:.9}100%{height:var(--h,80px);opacity:.55}}
+
+/* ── HORROR MODAL ── */
+.horror-overlay{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;padding:20px}
+.horror-overlay.open{opacity:1;visibility:visible}
+.horror-card{background:linear-gradient(155deg,#130000,#030000);border:2px solid #8b0000;border-radius:8px;width:100%;max-width:450px;overflow:hidden;transform:scale(.82);transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 60px rgba(139,0,0,.35),0 20px 60px rgba(0,0,0,.95)}
+.horror-overlay.open .horror-card{transform:scale(1)}
+.horror-top{background:linear-gradient(90deg,#320000,#180000);padding:16px 18px;position:relative;border-bottom:2px solid #5a0000}
+.horror-title{font-family:'Creepster',cursive;font-size:clamp(1.4rem,5vw,2.1rem);color:#dd2222;letter-spacing:2px;line-height:1.1;padding-right:38px}
+.horror-close{position:absolute;top:10px;right:10px;width:28px;height:28px;background:#080000;border:1px solid #4a0000;border-radius:50%;color:#550000;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Press Start 2P',monospace}
+.horror-close:hover{border-color:#cc0000;color:#cc0000}
+.horror-body{padding:18px}
+.horror-field{margin-bottom:13px}
+.horror-label{font-family:'Press Start 2P',monospace;font-size:.38rem;letter-spacing:2px;color:#550000;text-transform:uppercase;margin-bottom:4px}
+.horror-value{font-size:.95rem;color:#bb4444;line-height:1.4}
+.horror-genre-tag{display:inline-block;background:rgba(120,0,0,.2);border:1px solid #550000;color:#992222;padding:3px 12px;border-radius:14px;font-size:.82rem}
+.val-footer{background:#080000;border-top:3px solid #4a0000;padding:14px 22px;text-align:center;margin-top:auto}
+.val-footer-logo{font-family:'Creepster',cursive;font-size:1.3rem;color:#550000;letter-spacing:3px}
+.val-footer-txt{font-family:'Press Start 2P',monospace;font-size:.35rem;color:#280000;margin-top:5px}
+
 /* FOOTER */
 .footer{background:linear-gradient(180deg,#002070,#001040);border-top:5px solid var(--gold);padding:18px 28px;text-align:center}
 .footer-logo{font-family:'Bangers',cursive;font-size:1.6rem;color:var(--gold);letter-spacing:3px;margin-bottom:5px}
@@ -118,7 +205,29 @@ body{background:var(--bg);color:var(--white);font-family:'Lato',sans-serif;min-h
 <header class="header">
   <div class="header-stripe"></div>
   <div class="header-logo">RURAL JUROR RENTALS</div>
-  <div class="header-stars">★ ★ ★ ★ ★</div>
+  <div class="header-stars">
+    <span class="rjr-star">★</span>
+    <span class="rjr-star">★</span>
+    <svg class="rjr-pentagon" id="secret-trigger" viewBox="0 0 100 100" width="24" height="24" xmlns="http://www.w3.org/2000/svg" style="overflow:visible" aria-hidden="true">
+      <!-- dark background -->
+      <circle cx="50" cy="50" r="48" fill="#0e0000"/>
+      <!-- outer ring -->
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#6a0000" stroke-width="2.5"/>
+      <!-- inner ring (pentacle) -->
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#440000" stroke-width="1.2"/>
+      <!-- pentagram star — points alternate outer(r=44) / inner(r=17) -->
+      <polygon
+        points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5"
+        fill="#8b0000"
+        stroke="#cc2200"
+        stroke-width="1.8"
+        stroke-linejoin="miter"/>
+      <!-- sinister center dot -->
+      <circle cx="50" cy="50" r="4.5" fill="#cc0000"/>
+    </svg>
+    <span class="rjr-star">★</span>
+    <span class="rjr-star">★</span>
+  </div>
   <div class="header-sub">YOUR NEIGHBORHOOD VIDEO RENTAL DESTINATION</div>
   <div class="header-tag">Open 7 Days · New Releases Every Tuesday · Free Popcorn With Membership</div>
   <div class="header-badge">🍿 MEMBERS SINCE FOREVER 🍿</div>
@@ -173,6 +282,104 @@ body{background:var(--bg);color:var(--white);font-family:'Lato',sans-serif;min-h
       <div class="modal-field" id="modal-note-field">
         <div class="modal-label">Collection / Note</div>
         <div class="modal-value modal-note-val" id="modal-note"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="blood-container"></div>
+
+<!-- CRT CONSOLE MODAL -->
+<div class="console-overlay" id="console-overlay">
+  <div class="console-box">
+    <div class="console-inner">
+      <div class="console-title">// VALIMOREK VHS SYSTEM v1.0 //</div>
+      <!-- DoomGuy pixel art -->
+      <svg class="doomguy" width="96" height="112" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+        <rect x="4" y="0" width="16" height="3" fill="#1a0f00"/>
+        <rect x="2" y="2" width="20" height="4" fill="#1a0f00"/>
+        <rect x="2" y="4" width="20" height="16" fill="#c8803c"/>
+        <rect x="4" y="6" width="16" height="2" fill="#a86828"/>
+        <rect x="5" y="9" width="5" height="4" fill="#2a1800"/>
+        <rect x="14" y="9" width="5" height="4" fill="#2a1800"/>
+        <rect x="6" y="10" width="3" height="2" fill="#dd2200"/>
+        <rect x="15" y="10" width="3" height="2" fill="#dd2200"/>
+        <rect x="7" y="11" width="1" height="1" fill="#ff4400"/>
+        <rect x="16" y="11" width="1" height="1" fill="#ff4400"/>
+        <rect x="11" y="13" width="2" height="3" fill="#a86828"/>
+        <rect x="4" y="17" width="16" height="2" fill="#a86828"/>
+        <rect x="5" y="18" width="14" height="4" fill="#180a00"/>
+        <rect x="6" y="19" width="2" height="2" fill="#d0c898"/>
+        <rect x="9" y="19" width="2" height="2" fill="#d0c898"/>
+        <rect x="13" y="19" width="2" height="2" fill="#d0c898"/>
+        <rect x="16" y="19" width="2" height="2" fill="#d0c898"/>
+        <rect x="6" y="22" width="12" height="2" fill="#c8803c"/>
+        <rect x="4" y="23" width="16" height="2" fill="#a86828"/>
+        <rect x="8" y="22" width="2" height="5" fill="#aa0000"/>
+        <rect x="14" y="21" width="2" height="6" fill="#aa0000"/>
+        <rect x="11" y="23" width="2" height="4" fill="#cc0000"/>
+        <rect x="3" y="14" width="1" height="6" fill="#880000"/>
+        <rect x="20" y="12" width="1" height="4" fill="#880000"/>
+      </svg>
+      <div class="console-line">&gt; RESTRICTED ACCESS TERMINAL</div>
+      <div class="console-line">&gt; ENTER AUTHORIZATION CODE<span class="blink">_</span></div>
+      <div class="console-prompt-row">
+        <span class="console-prompt-sym">&gt;&gt;</span>
+        <input class="console-input" id="console-input" type="password" maxlength="20" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="console-msg" id="console-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VALIMOREK VHS PAGE -->
+<div id="valimorek-page">
+  <div class="val-top-bar">
+    <div class="val-header">
+      <div class="val-logo">Valimorek VHS</div>
+      <div class="val-pentagons">
+        <svg class="val-pent-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><circle cx="50" cy="50" r="48" fill="#0e0000"/><circle cx="50" cy="50" r="46" fill="none" stroke="#6a0000" stroke-width="2.5"/><circle cx="50" cy="50" r="34" fill="none" stroke="#440000" stroke-width="1.2"/><polygon points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5" fill="#8b0000" stroke="#cc2200" stroke-width="1.8" stroke-linejoin="miter"/><circle cx="50" cy="50" r="4.5" fill="#cc0000"/></svg>
+        <svg class="val-pent-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><circle cx="50" cy="50" r="48" fill="#0e0000"/><circle cx="50" cy="50" r="46" fill="none" stroke="#6a0000" stroke-width="2.5"/><circle cx="50" cy="50" r="34" fill="none" stroke="#440000" stroke-width="1.2"/><polygon points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5" fill="#8b0000" stroke="#cc2200" stroke-width="1.8" stroke-linejoin="miter"/><circle cx="50" cy="50" r="4.5" fill="#cc0000"/></svg>
+        <svg class="val-pent-svg val-pent-exit-svg" id="val-exit-btn" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="overflow:visible" title="Exit"><circle cx="50" cy="50" r="48" fill="#0e0800"/><circle cx="50" cy="50" r="46" fill="none" stroke="#8a6800" stroke-width="2.5"/><circle cx="50" cy="50" r="34" fill="none" stroke="#5a4500" stroke-width="1.2"/><polygon points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5" fill="#c8a000" stroke="#FFD700" stroke-width="1.8" stroke-linejoin="miter"/><circle cx="50" cy="50" r="4.5" fill="#FFD700"/></svg>
+        <svg class="val-pent-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><circle cx="50" cy="50" r="48" fill="#0e0000"/><circle cx="50" cy="50" r="46" fill="none" stroke="#6a0000" stroke-width="2.5"/><circle cx="50" cy="50" r="34" fill="none" stroke="#440000" stroke-width="1.2"/><polygon points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5" fill="#8b0000" stroke="#cc2200" stroke-width="1.8" stroke-linejoin="miter"/><circle cx="50" cy="50" r="4.5" fill="#cc0000"/></svg>
+        <svg class="val-pent-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><circle cx="50" cy="50" r="48" fill="#0e0000"/><circle cx="50" cy="50" r="46" fill="none" stroke="#6a0000" stroke-width="2.5"/><circle cx="50" cy="50" r="34" fill="none" stroke="#440000" stroke-width="1.2"/><polygon points="50,6 61,37.5 95,37.5 68,57 78.5,89 50,70 21.5,89 32,57 5,37.5 39,37.5" fill="#8b0000" stroke="#cc2200" stroke-width="1.8" stroke-linejoin="miter"/><circle cx="50" cy="50" r="4.5" fill="#cc0000"/></svg>
+      </div>
+      <div class="val-sub">Be my victim...</div>
+    </div>
+    <div class="val-controls">
+      <div class="val-search-wrap">
+        <input type="text" id="val-search" class="val-search" placeholder="Search the darkness...">
+      </div>
+      <select id="val-genre" class="val-genre-sel">
+        <option value="">All Genres</option>
+      </select>
+    </div>
+    <div class="val-count" id="val-count"></div>
+  </div>
+  <div class="val-scroll-area">
+    <div class="val-grid" id="val-grid"></div>
+    <div class="val-footer">
+      <div class="val-footer-logo">☠ ValimorekVHS ☠</div>
+      <div class="val-footer-txt">&gt; NO SURVIVORS · NO REFUNDS · NO MERCY &lt;</div>
+    </div>
+  </div>
+</div>
+
+<!-- HORROR MODAL -->
+<div class="horror-overlay" id="horror-overlay">
+  <div class="horror-card">
+    <div class="horror-top">
+      <div class="horror-title" id="horror-title"></div>
+      <button class="horror-close" id="horror-close">✕</button>
+    </div>
+    <div class="horror-body">
+      <div class="horror-field">
+        <div class="horror-label">Year</div>
+        <div class="horror-value" id="horror-year"></div>
+      </div>
+      <div class="horror-field">
+        <div class="horror-label">Genre</div>
+        <div class="horror-value"><span class="horror-genre-tag" id="horror-genre"></span></div>
       </div>
     </div>
   </div>
@@ -636,6 +843,532 @@ function spawnPopcorn(rect){
     kernel.addEventListener('animationend',()=>kernel.remove(),{once:true});
   }
 }
+
+// ── VALIMOREK DATA ───────────────────────────────────────────────────────────
+const VRAW=[
+["28 Days Later","2002","Horror, Thriller"],
+["28 Weeks Later","2007","Horror, Thriller"],
+["300","2006","Action, History"],
+["50/50","2011","Comedy, Drama"],
+["A Nightmare on Elm Street Collection","1984","Horror"],
+["A Scanner Darkly","2006","Sci-Fi, Thriller"],
+["AC/DC: Live at Donington","1992","Music"],
+["Ace Ventura: Pet Detective","1994","Comedy"],
+["Ace Ventura: When Nature Calls","1995","Comedy"],
+["The Addams Family","1991","Comedy, Fantasy"],
+["Addams Family Values","1993","Comedy, Fantasy"],
+["Air Force One","1997","Action, Thriller"],
+["In the Line of Fire","1993","Action, Thriller"],
+["Akira","1988","Animation, Sci-Fi"],
+["Aladdin","1992","Animation, Family"],
+["Alien vs. Predator","2004","Action, Sci-Fi"],
+["Aliens vs. Predator: Requiem","2007","Action, Sci-Fi"],
+["Alien","1979","Horror, Sci-Fi"],
+["Aliens","1986","Action, Sci-Fi"],
+["Alien 3","1992","Horror, Sci-Fi"],
+["Alien Resurrection","1997","Action, Sci-Fi"],
+["Prometheus","2012","Sci-Fi, Horror"],
+["Alien: Covenant","2017","Sci-Fi, Horror"],
+["American Gangster","2007","Crime, Drama"],
+["American Hustle","2013","Crime, Drama"],
+["American Psycho","2000","Crime, Thriller"],
+["Amores Perros","2000","Drama, Thriller"],
+["Anchorman: The Legend of Ron Burgundy","2004","Comedy"],
+["Annabelle","2014","Horror, Mystery"],
+["Annabelle: Creation","2017","Horror, Mystery"],
+["Army of Darkness","1992","Comedy, Horror"],
+["Atomic Blonde","2017","Action, Thriller"],
+["Austin Powers: International Man of Mystery","1997","Comedy, Action"],
+["Austin Powers: The Spy Who Shagged Me","1999","Comedy, Action"],
+["Austin Powers in Goldmember","2002","Comedy, Action"],
+["Batman","1989","Action, Fantasy"],
+["Batman Returns","1992","Action, Fantasy"],
+["Batman Forever","1995","Action, Fantasy"],
+["Batman & Robin","1997","Action, Fantasy"],
+["Beetlejuice","1988","Comedy, Fantasy"],
+["Big Trouble in Little China","1986","Action, Adventure"],
+["Billy Madison","1995","Comedy"],
+["Black Hawk Down","2001","Action, War"],
+["Black Mass","2015","Crime, Biography"],
+["Blade","1998","Action, Horror"],
+["Blade Runner","1982","Sci-Fi, Thriller"],
+["Blades of Glory","2007","Comedy, Sport"],
+["Blow","2001","Crime, Drama"],
+["Bram Stoker's Dracula","1992","Horror, Fantasy"],
+["Braveheart","1995","Action, History"],
+["Bridesmaids","2011","Comedy, Romance"],
+["Cardcaptor Sakura: The Movie 2","2000","Animation, Fantasy"],
+["Carrie","2013","Horror, Drama"],
+["Casino Royale","2006","Action, Thriller"],
+["Casper","1995","Comedy, Family"],
+["Chicago Bulls: The Dynasty Collection","","Non-Film"],
+["Classic Monsters Collection","1931","Horror"],
+["Clint Eastwood Western Icon Collection","1964","Western, Action"],
+["A Clockwork Orange","1971","Crime, Drama"],
+["Clueless","1995","Comedy, Romance"],
+["Coheed and Cambria: In Keeping Secrets","2004","Music"],
+["Commando","1985","Action"],
+["Conan the Barbarian","1982","Action, Fantasy"],
+["Constantine","2005","Action, Fantasy"],
+["Cradle of Filth: Pandaemonaeon","","Music"],
+["Cradle of Filth: Heavy, Left-Handed and Candid","","Music"],
+["Cradle of Filth: Peace Through Superior Firepower","2006","Music"],
+["Dawn of the Dead","1978","Horror"],
+["Day of the Dead","1985","Horror"],
+["Deep Blue Sea","1999","Action, Horror"],
+["Demolition Man","1993","Action, Sci-Fi"],
+["Die Hard","1988","Action, Thriller"],
+["District 9","2009","Sci-Fi, Action"],
+["Django Unchained","2012","Western, Drama"],
+["Dodgeball: A True Underdog Story","2004","Comedy, Sport"],
+["Dogma","1999","Comedy, Fantasy"],
+["Donnie Darko","2001","Drama, Sci-Fi"],
+["Drag Me to Hell","2009","Horror, Thriller"],
+["Dredd","2012","Action, Sci-Fi"],
+["Drive Angry","2011","Action, Thriller"],
+["Drowning Mona","2000","Comedy, Crime"],
+["Dumb and Dumber","1994","Comedy"],
+["E.T. the Extra-Terrestrial","1982","Family, Sci-Fi"],
+["Ed Wood","1994","Biography, Comedy"],
+["Edge of Tomorrow","2014","Action, Sci-Fi"],
+["Edward Scissorhands","1990","Drama, Fantasy"],
+["End of Days","1999","Action, Horror"],
+["Enter the Dragon","1973","Action"],
+["Evil Dead 2","1987","Comedy, Horror"],
+["The Evil Dead","1981","Horror"],
+["Evil Dead","2013","Horror"],
+["Evolution","2001","Comedy, Sci-Fi"],
+["Ex Machina","2014","Drama, Sci-Fi"],
+["Fallen","1998","Crime, Horror"],
+["Friday Night Lights","2004","Drama, Sport"],
+["Fight Club","1999","Drama, Thriller"],
+["Freaky Friday","2003","Comedy, Family"],
+["Friday the 13th Collection","1980","Horror"],
+["From Dusk Till Dawn","1996","Action, Horror"],
+["Full Metal Jacket","1987","Drama, War"],
+["Fury","2014","Action, War"],
+["Gangs of New York","2002","Crime, Drama"],
+["Get Out","2017","Horror, Mystery"],
+["Ghost in the Shell","1995","Animation, Sci-Fi"],
+["Ghostbusters","1984","Comedy, Fantasy"],
+["Ghostbusters II","1989","Comedy, Fantasy"],
+["Gladiator","2000","Action, Drama"],
+["Gone Girl","2014","Drama, Mystery"],
+["Grandma's Boy","2006","Comedy"],
+["The Green Mile","1999","Crime, Drama"],
+["Forrest Gump","1994","Drama, Romance"],
+["Gremlins","1984","Comedy, Horror"],
+["Gremlins 2: The New Batch","1990","Comedy, Horror"],
+["Guardians of the Galaxy","2014","Action, Sci-Fi"],
+["Hannibal Lecter Two Pack","1991","Crime, Thriller"],
+["Happy Gilmore","1996","Comedy, Sport"],
+["Hellboy","2004","Action, Fantasy"],
+["Hellraiser","1987","Horror"],
+["Hellbound: Hellraiser II","1988","Horror"],
+["Hellraiser Collection (6 Films)","1987","Horror"],
+["He-Man and the Masters of the Universe Vol. 1","","Non-Film"],
+["Hereditary","2018","Drama, Horror"],
+["High Life","2018","Drama, Sci-Fi"],
+["Elf","2003","Comedy, Family"],
+["National Lampoon's Christmas Vacation","1989","Comedy, Family"],
+["A Christmas Story","1983","Comedy, Family"],
+["The Polar Express","2004","Animation, Family"],
+["Hook","1991","Adventure, Family"],
+["Hot Fuzz","2007","Action, Comedy"],
+["Inception","2010","Action, Sci-Fi"],
+["Independence Day","1996","Action, Sci-Fi"],
+["Inglourious Basterds","2009","Drama, War"],
+["Inside Man","2006","Crime, Mystery"],
+["Interstellar","2014","Adventure, Sci-Fi"],
+["Interview with the Vampire","1994","Drama, Horror"],
+["Ip Man Trilogy","2008","Action, Biography"],
+["Iron Man 2","2010","Action, Sci-Fi"],
+["Iron Man","2008","Action, Sci-Fi"],
+["Jarhead","2005","Drama, War"],
+["Jaws","1975","Horror, Thriller"],
+["Jeepers Creepers","2001","Horror, Mystery"],
+["John Wick","2014","Action, Thriller"],
+["John Wick: Chapter 4","2023","Action, Thriller"],
+["Joker","2019","Crime, Drama"],
+["Judge Dredd","1995","Action, Sci-Fi"],
+["Jurassic World 5-Movie Collection","2015","Action, Adventure"],
+["Kick-Ass","2010","Action, Comedy"],
+["King Arthur","2004","Action, Adventure"],
+["Kiss Kiss Bang Bang","2005","Comedy, Crime"],
+["Krampus","2015","Comedy, Horror"],
+["L.A. Confidential","1997","Crime, Mystery"],
+["Lars and the Real Girl","2007","Comedy, Drama"],
+["Last Action Hero","1993","Action, Comedy"],
+["Life","2017","Horror, Sci-Fi"],
+["Live Free or Die Hard","2007","Action, Thriller"],
+["Lock, Stock and Two Smoking Barrels","1998","Comedy, Crime"],
+["Looper","2012","Action, Sci-Fi"],
+["The Lord of the Rings Trilogy","2001","Adventure, Fantasy"],
+["Lord of War","2005","Crime, Drama"],
+["Machete","2010","Action, Crime"],
+["Mad Max","1979","Action, Thriller"],
+["Mad Max: Fury Road","2015","Action, Adventure"],
+["Man on Fire","2004","Action, Crime"],
+["Mean Girls","2004","Comedy, Drama"],
+["Men in Black","1997","Action, Comedy"],
+["Metalocalypse Series","","Non-Film"],
+["Mission: Impossible","1996","Action, Thriller"],
+["Monster House","2006","Animation, Horror"],
+["Monsters, Inc.","2001","Animation, Family"],
+["Moon","2009","Drama, Sci-Fi"],
+["Mortal Kombat","2021","Action, Fantasy"],
+["Mortal Kombat: Annihilation","1997","Action, Fantasy"],
+["Mortal Kombat","1995","Action, Fantasy"],
+["Moulin Rouge!","2001","Drama, Musical"],
+["Mr. Brooks","2007","Crime, Thriller"],
+["Nana Movie 1 & 2","2005","Drama, Romance"],
+["Night of the Living Dead","1968","Horror"],
+["No Country for Old Men","2007","Crime, Thriller"],
+["Ocean's Eleven","2001","Comedy, Crime"],
+["Old School","2003","Comedy"],
+["Once Upon a Time in Hollywood","2019","Comedy, Drama"],
+["Pacific Rim","2013","Action, Sci-Fi"],
+["Pan's Labyrinth","2006","Drama, Fantasy"],
+["Paranormal Activity","2007","Horror, Mystery"],
+["Parasite","2019","Drama, Thriller"],
+["Peninsula","2020","Action, Horror"],
+["Perfect Blue","1997","Animation, Mystery"],
+["Poltergeist","1982","Horror, Mystery"],
+["Predator 4-Movie Collection","1987","Action, Sci-Fi"],
+["Prey","2022","Action, Thriller"],
+["Promising Young Woman","2020","Crime, Drama"],
+["Pulp Fiction","1994","Crime, Drama"],
+["Quantum of Solace","2008","Action, Thriller"],
+["Queen of the Damned","2002","Fantasy, Horror"],
+["Rammstein: Live aus Berlin","1999","Music"],
+["Raw Deal","1986","Action, Crime"],
+["Re-Animator","1985","Comedy, Horror"],
+["Reservoir Dogs","1992","Crime, Thriller"],
+["Resident Evil Collection","2002","Action, Horror"],
+["RoboCop","2014","Action, Sci-Fi"],
+["RoboCop Triple Pack","1987","Action, Sci-Fi"],
+["RocknRolla","2008","Action, Crime"],
+["Rudolph the Red-Nosed Reindeer","1964","Animation, Family"],
+["Rudy","1993","Drama, Sport"],
+["Cardcaptor Sakura Series 1-4","","Non-Film"],
+["Saturday Night Fever","1977","Drama, Musical"],
+["Grease","1978","Comedy, Musical"],
+["Saving Private Ryan","1998","Drama, War"],
+["Saving Silverman","2001","Comedy, Romance"],
+["Saw","2004","Horror, Thriller"],
+["Scarface","1983","Crime, Drama"],
+["Scott Pilgrim vs. the World","2010","Action, Comedy"],
+["Semi-Pro","2008","Comedy, Sport"],
+["Se7en","1995","Crime, Mystery"],
+["Shaun of the Dead","2004","Comedy, Horror"],
+["Shutter Island","2010","Mystery, Thriller"],
+["Silent Hill","2006","Horror, Mystery"],
+["Skyfall","2012","Action, Thriller"],
+["Snatch","2000","Comedy, Crime"],
+["Space Jam","1996","Animation, Comedy"],
+["Spawn","1997","Action, Fantasy"],
+["Spectre","2015","Action, Thriller"],
+["Star Trek","2009","Action, Sci-Fi"],
+["Star Trek: Generations","1994","Action, Sci-Fi"],
+["Star Trek: First Contact","1996","Action, Sci-Fi"],
+["Star Trek: Insurrection","1998","Action, Sci-Fi"],
+["Star Trek: Nemesis","2002","Action, Sci-Fi"],
+["Star Wars: A New Hope","1977","Action, Sci-Fi"],
+["Star Wars: The Empire Strikes Back","1980","Action, Sci-Fi"],
+["Star Wars: Return of the Jedi","1983","Action, Sci-Fi"],
+["Starship Troopers","1997","Action, Sci-Fi"],
+["Teenage Mutant Ninja Turtles","1990","Action, Adventure"],
+["Teenage Mutant Ninja Turtles II: The Secret of the Ooze","1991","Action, Adventure"],
+["Teenage Mutant Ninja Turtles III","1993","Action, Adventure"],
+["Teenage Mutant Ninja Turtles: Season One","","Non-Film"],
+["Tenet","2020","Action, Sci-Fi"],
+["The Terminator Collection (6 Films)","1984","Action, Sci-Fi"],
+["Thank You for Smoking","2005","Comedy, Drama"],
+["That Thing You Do!","1996","Comedy, Music"],
+["The Big Lebowski","1998","Comedy, Crime"],
+["The Birdcage","1996","Comedy, Drama"],
+["The Black Dahlia","2006","Crime, Mystery"],
+["The Boondock Saints","1999","Action, Crime"],
+["The Bourne Collection","2002","Action, Thriller"],
+["The Cell","2000","Crime, Thriller"],
+["The Dark Knight Trilogy","2005","Action, Crime"],
+["The Departed","2006","Crime, Drama"],
+["The Exorcist","1973","Horror"],
+["The Fifth Element","1997","Action, Sci-Fi"],
+["The Fountain","2006","Drama, Sci-Fi"],
+["The Hangover","2009","Comedy"],
+["The Hateful Eight","2015","Crime, Western"],
+["The Haunted World of Edward D. Wood Jr.","1995","Documentary"],
+["The Host","2006","Horror, Sci-Fi"],
+["The Hunger","1983","Drama, Horror"],
+["The Hurricane","1999","Biography, Drama"],
+["The Last of the Mohicans","1992","Adventure, Romance"],
+["The League of Extraordinary Gentlemen","2003","Action, Adventure"],
+["The Lost Boys","1987","Comedy, Horror"],
+["The Man with No Name Trilogy","1964","Western"],
+["The Martian","2015","Adventure, Sci-Fi"],
+["The Mask","1994","Comedy, Fantasy"],
+["The Matrix Trilogy","1999","Action, Sci-Fi"],
+["The Mexican","2001","Action, Comedy"],
+["The Orphanage","2007","Drama, Horror"],
+["The Prestige","2006","Drama, Mystery"],
+["Leon: The Professional","1994","Action, Crime"],
+["The Real Ghostbusters Series","","Non-Film"],
+["The Return of the Evil Dead","1973","Horror"],
+["The Ring","2002","Horror, Mystery"],
+["Mad Max 2: The Road Warrior","1981","Action, Thriller"],
+["The Rocky Horror Picture Show","1975","Comedy, Musical"],
+["The Running Man","1987","Action, Sci-Fi"],
+["The Sandlot","1993","Comedy, Family"],
+["The Shining","1980","Drama, Horror"],
+["The Sixth Sense","1999","Drama, Mystery"],
+["The Substance","2024","Horror, Sci-Fi"],
+["The Thin Red Line","1998","Drama, War"],
+["The Truman Show","1998","Comedy, Drama"],
+["The Witch","2015","Drama, Horror"],
+["The Waterboy","1998","Comedy, Sport"],
+["The Wedding Singer","1998","Comedy, Romance"],
+["The Wizard of Oz","1939","Adventure, Musical"],
+["The Wolf of Wall Street","2013","Biography, Crime"],
+["The World's End","2013","Comedy, Sci-Fi"],
+["Teenage Mutant Ninja Turtles 1, 2 & 3","1990","Action, Adventure"],
+["To Wong Foo, Thanks for Everything! Julie Newmar","1995","Comedy, Drama"],
+["Tommy Boy","1995","Comedy"],
+["Total Recall","1990","Action, Sci-Fi"],
+["Total Recall","2012","Action, Sci-Fi"],
+["Toy Story","1995","Animation, Family"],
+["Toy Story 2","1999","Animation, Family"],
+["Toy Story 3","2010","Animation, Family"],
+["Training Day","2001","Crime, Drama"],
+["Troy","2004","Action, Drama"],
+["Alexander Revisited","2004","Action, Biography"],
+["True Lies","1994","Action, Comedy"],
+["Ultimate Jordan","","Non-Film"],
+["Uncut Gems","2019","Crime, Drama"],
+["Underworld Collection","2003","Action, Fantasy"],
+["Unforgiven","1992","Drama, Western"],
+["Up","2009","Animation, Adventure"],
+["Us","2019","Horror, Mystery"],
+["Waiting...","2005","Comedy"],
+["Watchmen","2009","Action, Fantasy"],
+["Wayne's World","1992","Comedy"],
+["Wayne's World 2","1993","Comedy"],
+["Wedding Crashers","2005","Comedy, Romance"],
+["Who Framed Roger Rabbit","1988","Animation, Comedy"],
+["Willy Wonka & the Chocolate Factory","1971","Family, Fantasy"],
+["X-Men: First Class","2011","Action, Sci-Fi"],
+["X-Men: The Animated Series Vol. 1 & 2","","Non-Film"],
+["Young Frankenstein","1974","Comedy, Horror"],
+["Zombieland","2009","Comedy, Horror"]
+];
+const VDATA=VRAW.map(r=>({title:r[0],year:r[1],genre:r[2]}));
+
+// ── VALIMOREK STATE ───────────────────────────────────────────────────────────
+let vSearchQ='',vGenre='';
+
+function buildValGenres(){
+  const set=new Set();
+  VDATA.forEach(item=>item.genre.split(',').forEach(g=>set.add(g.trim())));
+  const sel=document.getElementById('val-genre');
+  [...set].sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
+}
+
+function getVFiltered(){
+  const q=vSearchQ.toLowerCase();
+  return VDATA.filter(item=>{
+    const mQ=!q||item.title.toLowerCase().includes(q)||item.genre.toLowerCase().includes(q);
+    const mG=!vGenre||item.genre.toLowerCase().includes(vGenre.toLowerCase());
+    return mQ&&mG;
+  });
+}
+
+function renderValCards(){
+  const grid=document.getElementById('val-grid');
+  const bar=document.getElementById('val-count');
+  const items=getVFiltered();
+  bar.textContent=`> ${items.length} TITLE${items.length!==1?'S':''} FOUND`;
+  grid.innerHTML='';
+  if(!items.length){
+    const e=document.createElement('div');e.className='val-empty';
+    e.textContent='NOTHING SURVIVES YOUR SEARCH';
+    grid.appendChild(e);return;
+  }
+  items.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='val-card';
+    card.innerHTML=`
+      <div class="val-card-top">
+        <div class="val-card-title">${esc(item.title)}</div>
+        ${item.year?`<div class="val-card-year">${esc(item.year)}</div>`:''}
+      </div>
+      <div class="val-card-body">
+        <div class="val-card-genre">${esc(item.genre)}</div>
+      </div>`;
+    card.addEventListener('click',()=>openHorrorCard(item,card));
+    grid.appendChild(card);
+  });
+}
+
+// ── BLOOD EFFECT ─────────────────────────────────────────────────────────────
+function spawnBlood(rect){
+  const container=document.getElementById('blood-container');
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const count=18;
+  const shapes=['50%','60% 40% 55% 35%/50% 65% 45% 55%','40% 60%/55% 45%','50% 50% 40% 60%/60% 40% 55% 45%'];
+
+  for(let i=0;i<count;i++){
+    const blob=document.createElement('div');
+    blob.className='b-blob';
+    const angle=(Math.PI*2*i/count)+(Math.random()-0.5)*0.7;
+    const dist=50+Math.random()*130;
+    const tx=Math.cos(angle)*dist;
+    const ty=Math.sin(angle)*dist;
+    const size=8+Math.random()*20;
+    const dur=0.25+Math.random()*0.25;
+    const shade=`hsl(${0+Math.random()*10},${70+Math.random()*20}%,${18+Math.random()*14}%)`;
+    blob.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size*(.7+Math.random()*.6)}px;background:${shade};border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};--tx:${tx}px;--ty:${ty}px;--d:${dur}s;`;
+    container.appendChild(blob);
+
+    // drip from some blobs
+    if(Math.random()>.5){
+      const drip=document.createElement('div');
+      drip.className='b-drip';
+      const dw=2+Math.random()*3;
+      const dh=40+Math.random()*90;
+      const ddur=0.9+Math.random()*0.8;
+      const ddl=dur+0.05+Math.random()*0.15;
+      drip.style.cssText=`left:${cx+tx-dw/2}px;top:${cy+ty}px;--w:${dw}px;--h:${dh}px;--d2:${ddur}s;--dl:${ddl}s;`;
+      container.appendChild(drip);
+      setTimeout(()=>drip.remove(),((ddl+ddur)*1000)+3000);
+    }
+    setTimeout(()=>{
+      blob.style.animation=`blobFade 1.5s ease forwards`;
+      setTimeout(()=>blob.remove(),1800);
+    },dur*1000+1200);
+  }
+}
+
+// ── HORROR MODAL ─────────────────────────────────────────────────────────────
+function openHorrorCard(item,cardEl){
+  const rect=cardEl.getBoundingClientRect();
+  spawnBlood(rect);
+  setTimeout(()=>{
+    document.getElementById('horror-title').textContent=item.title;
+    document.getElementById('horror-year').textContent=item.year||'UNKNOWN';
+    document.getElementById('horror-genre').textContent=item.genre;
+    document.getElementById('horror-overlay').classList.add('open');
+  },620);
+}
+function closeHorrorModal(){document.getElementById('horror-overlay').classList.remove('open');}
+document.getElementById('horror-close').addEventListener('click',closeHorrorModal);
+document.getElementById('horror-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('horror-overlay'))closeHorrorModal();});
+
+// ── CONSOLE / PASSWORD ────────────────────────────────────────────────────────
+const PWD='idkfa';
+let consoleTarget='enter'; // 'enter' or 'exit'
+
+function openConsole(target){
+  consoleTarget=target;
+  const overlay=document.getElementById('console-overlay');
+  const inp=document.getElementById('console-input');
+  const msg=document.getElementById('console-msg');
+  overlay.classList.add('open');
+  msg.textContent='';msg.className='console-msg';
+  inp.value='';
+  setTimeout(()=>inp.focus(),80);
+}
+function closeConsole(){
+  const overlay=document.getElementById('console-overlay');
+  const box=document.querySelector('.console-box');
+  overlay.classList.remove('open');
+  box.classList.remove('exit-mode');
+}
+
+function openExitConsole(){
+  const overlay=document.getElementById('console-overlay');
+  const box=document.querySelector('.console-box');
+  const msg=document.getElementById('console-msg');
+  box.classList.add('exit-mode');
+  overlay.classList.add('open');
+  msg.className='console-msg exit-blink';
+  msg.textContent="> Whatever you do, don’t fall asleep…";
+  setTimeout(()=>{
+    closeConsole();
+    fadeToBlackThen(hideValimorek);
+  },2600);
+}
+
+document.getElementById('console-input').addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const val=document.getElementById('console-input').value.trim().toLowerCase();
+  const msg=document.getElementById('console-msg');
+  if(val===PWD){
+    msg.className='console-msg success';
+    if(consoleTarget==='enter'){
+      msg.textContent='> We have such sights to show you!';
+      setTimeout(()=>{
+        closeConsole();
+        fadeToBlackThen(showValimorek);
+      },2200);
+    } else {
+      msg.textContent='> Whatever you do, don\'t fall asleep...';
+      setTimeout(()=>{
+        closeConsole();
+        fadeToBlackThen(hideValimorek);
+      },2200);
+    }
+  } else {
+    msg.className='console-msg error';
+    msg.textContent='> Ah ah ah, you didn\'t say the magic word.';
+    document.getElementById('console-input').value='';
+  }
+});
+
+document.getElementById('console-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('console-overlay'))closeConsole();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeConsole();});
+
+// ── FADE TRANSITION ───────────────────────────────────────────────────────────
+function fadeToBlackThen(cb){
+  const fade=document.createElement('div');
+  fade.style.cssText='position:fixed;inset:0;background:#000;z-index:9000;opacity:0;transition:opacity .6s ease;pointer-events:all';
+  document.body.appendChild(fade);
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{fade.style.opacity='1';});});
+  setTimeout(()=>{cb();setTimeout(()=>{fade.style.opacity='0';setTimeout(()=>fade.remove(),700);},80);},700);
+}
+
+function showValimorek(){
+  const page=document.getElementById('valimorek-page');
+  page.classList.add('v-visible');
+  renderValCards();
+  // reset card grid scroll to top
+  const sa=document.querySelector('.val-scroll-area');
+  if(sa) sa.scrollTop=0;
+  requestAnimationFrame(()=>{
+    page.classList.add('v-in');
+    if(sa) sa.scrollTop=0;
+  });
+}
+function hideValimorek(){
+  const page=document.getElementById('valimorek-page');
+  page.classList.remove('v-in');
+  setTimeout(()=>{
+    page.classList.remove('v-visible');
+    const sa=document.querySelector('.val-scroll-area');
+    if(sa) sa.scrollTop=0;
+  },500);
+}
+
+// ── TRIGGERS ─────────────────────────────────────────────────────────────────
+document.getElementById('secret-trigger').addEventListener('click',()=>openConsole('enter'));
+document.getElementById('val-exit-btn').addEventListener('click',openExitConsole);
+
+document.getElementById('val-search').addEventListener('input',e=>{vSearchQ=e.target.value;renderValCards();});
+document.getElementById('val-genre').addEventListener('change',e=>{vGenre=e.target.value;renderValCards();});
+
+buildValGenres();
 
 // ── TABS & CONTROLS ──────────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn=>{
